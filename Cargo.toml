@@ -62,7 +62,7 @@ syn = { version = "2", features = ["full"] }
 # Dev dependencies
 pretty_assertions = "1"
 rstest = "0.23"
-rand = "0.8"
+rand = "0.9"
 criterion = { version = "0.5", features = ["html_reports"] }
 insta = { version = "1", features = ["yaml"] }
 proptest = "1"
