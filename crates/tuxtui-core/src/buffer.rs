@@ -226,13 +226,7 @@ impl Buffer {
     /// Set a styled string with mixed styles (via spans).
     ///
     /// This is used internally by text rendering.
-    pub fn set_styled_string(
-        &mut self,
-        x: u16,
-        y: u16,
-        string: &str,
-        style: Style,
-    ) -> u16 {
+    pub fn set_styled_string(&mut self, x: u16, y: u16, string: &str, style: Style) -> u16 {
         self.set_string(x, y, string, style)
     }
 
@@ -403,7 +397,7 @@ mod tests {
     fn test_buffer_set_get() {
         let mut buffer = Buffer::empty(Rect::new(0, 0, 10, 10));
         buffer.set(5, 5, "X", Style::default());
-        
+
         let cell = buffer.get(5, 5).unwrap();
         assert_eq!(cell.symbol, "X");
     }
@@ -412,7 +406,7 @@ mod tests {
     fn test_buffer_set_string() {
         let mut buffer = Buffer::empty(Rect::new(0, 0, 20, 5));
         let end_x = buffer.set_string(0, 0, "Hello", Style::default());
-        
+
         assert_eq!(end_x, 5);
         assert_eq!(buffer.get(0, 0).unwrap().symbol, "H");
         assert_eq!(buffer.get(4, 0).unwrap().symbol, "o");
@@ -423,7 +417,7 @@ mod tests {
         let mut buffer = Buffer::empty(Rect::new(0, 0, 10, 10));
         buffer.set(5, 5, "X", Style::default().fg(Color::Red));
         buffer.clear();
-        
+
         let cell = buffer.get(5, 5).unwrap();
         assert_eq!(cell.symbol, " ");
         assert_eq!(cell.style, Style::default());
@@ -433,10 +427,10 @@ mod tests {
     fn test_buffer_merge() {
         let mut base = Buffer::empty(Rect::new(0, 0, 10, 10));
         let mut overlay = Buffer::empty(Rect::new(0, 0, 10, 10));
-        
+
         overlay.set(5, 5, "O", Style::default());
         base.merge(&overlay);
-        
+
         assert_eq!(base.get(5, 5).unwrap().symbol, "O");
     }
 }

@@ -55,11 +55,11 @@ impl<B: Backend> Terminal<B> {
     /// Create a new terminal with options.
     pub fn with_options(mut backend: B, options: TerminalOptions) -> Result<Self, B::Error> {
         let size = backend.size()?;
-        
+
         if options.alternate_screen {
             backend.enter_alternate_screen()?;
         }
-        
+
         if options.hide_cursor {
             backend.hide_cursor()?;
         }
@@ -247,13 +247,13 @@ mod tests {
     fn test_terminal_draw() {
         let backend = TestBackend::new(80, 24);
         let mut terminal = Terminal::new(backend).unwrap();
-        
+
         let result = terminal.draw(|frame| {
             let area = frame.area();
             assert_eq!(area.width, 80);
             assert_eq!(area.height, 24);
         });
-        
+
         assert!(result.is_ok());
     }
 }

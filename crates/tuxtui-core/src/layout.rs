@@ -7,9 +7,9 @@ use alloc::vec::Vec;
 use serde::{Deserialize, Serialize};
 
 #[cfg(feature = "layout-cache")]
-use lru::LruCache;
-#[cfg(feature = "layout-cache")]
 use core::num::NonZeroUsize;
+#[cfg(feature = "layout-cache")]
+use lru::LruCache;
 
 /// Layout constraints for sizing components.
 ///
@@ -277,19 +277,24 @@ impl Layout {
         let spacing_total = if self.constraints.len() > 1 {
             match self.spacing {
                 Spacing::Gap(gap) => gap.saturating_mul((self.constraints.len() - 1) as u16),
-                Spacing::Overlap(overlap) => 0u16.saturating_sub(overlap.saturating_mul((self.constraints.len() - 1) as u16)),
+                Spacing::Overlap(overlap) => {
+                    0u16.saturating_sub(overlap.saturating_mul((self.constraints.len() - 1) as u16))
+                }
             }
         } else {
             0
         };
 
-        let available_for_fill = total_space.saturating_sub(fixed_space).saturating_sub(spacing_total);
+        let available_for_fill = total_space
+            .saturating_sub(fixed_space)
+            .saturating_sub(spacing_total);
 
         // Second pass: distribute remaining space to Fill constraints
         if fill_weights > 0 {
             for (i, constraint) in self.constraints.iter().enumerate() {
                 if let Constraint::Fill(weight) = constraint {
-                    let fill_size = ((available_for_fill as u32 * *weight as u32) / fill_weights) as u16;
+                    let fill_size =
+                        ((available_for_fill as u32 * *weight as u32) / fill_weights) as u16;
                     sizes[i] = fill_size;
                 }
             }

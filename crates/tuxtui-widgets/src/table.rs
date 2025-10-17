@@ -357,7 +357,7 @@ impl Widget for Table<'_> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use tuxtui_core::style::Color;
+    use alloc::vec;
 
     #[test]
     fn test_table_creation() {

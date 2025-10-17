@@ -117,6 +117,7 @@ impl Widget for Sparkline<'_> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use alloc::vec;
 
     #[test]
     fn test_sparkline_creation() {

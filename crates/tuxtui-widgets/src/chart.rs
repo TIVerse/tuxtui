@@ -185,7 +185,8 @@ mod tests {
     fn test_chart_creation() {
         let data = [DataPoint::new(0.0, 0.0), DataPoint::new(1.0, 1.0)];
         let dataset = Dataset::new("Test", &data);
-        let chart = Chart::default().datasets(&[dataset]);
+        let datasets = [dataset];
+        let chart = Chart::default().datasets(&datasets);
         assert_eq!(chart.datasets.len(), 1);
     }
 

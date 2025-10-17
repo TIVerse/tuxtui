@@ -286,12 +286,12 @@ impl<'a> Text<'a> {
         let content = content.into();
         let lines: Vec<Line<'a>> = match content {
             Cow::Borrowed(s) => s.lines().map(|line| Line::styled(line, style)).collect(),
-            Cow::Owned(s) => s.lines().map(|line| Line::styled(line.to_string(), style)).collect(),
+            Cow::Owned(s) => s
+                .lines()
+                .map(|line| Line::styled(line.to_string(), style))
+                .collect(),
         };
-        Self {
-            lines,
-            style,
-        }
+        Self { lines, style }
     }
 
     /// Get the width of the widest line.
@@ -351,10 +351,8 @@ impl<'a> From<&'a str> for Text<'a> {
 
 impl From<String> for Text<'static> {
     fn from(s: String) -> Self {
-        let lines: Vec<Line<'static>> = s
-            .lines()
-            .map(|line| Line::from(line.to_string()))
-            .collect();
+        let lines: Vec<Line<'static>> =
+            s.lines().map(|line| Line::from(line.to_string())).collect();
         Self {
             lines,
             style: Style::default(),
@@ -405,10 +403,7 @@ mod tests {
 
     #[test]
     fn test_line_width() {
-        let line = Line::from(vec![
-            Span::raw("Hello "),
-            Span::raw("World"),
-        ]);
+        let line = Line::from(vec![Span::raw("Hello "), Span::raw("World")]);
         assert_eq!(line.width(), 11);
     }
 

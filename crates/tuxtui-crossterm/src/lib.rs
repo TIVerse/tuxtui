@@ -31,12 +31,14 @@
 
 use crossterm::{
     cursor, execute, queue,
-    style::{self, Attribute, Color as CColor, SetAttribute, SetBackgroundColor, SetForegroundColor},
+    style::{
+        self, Attribute, Color as CColor, SetAttribute, SetBackgroundColor, SetForegroundColor,
+    },
     terminal::{self, Clear, ClearType},
 };
+use std::format;
 use std::io::{self, Write};
 use std::vec;
-use std::format;
 use tuxtui_core::backend::Backend;
 use tuxtui_core::buffer::Cell;
 use tuxtui_core::geometry::{Position, Rect};
@@ -190,7 +192,8 @@ impl<W: Write> Backend for CrosstermBackend<W> {
         queue!(self.writer, style::Print(&cell.symbol))?;
 
         // Reset if we applied any modifiers
-        if !cell.style.add_modifier.is_empty() || cell.style.fg.is_some() || cell.style.bg.is_some() {
+        if !cell.style.add_modifier.is_empty() || cell.style.fg.is_some() || cell.style.bg.is_some()
+        {
             queue!(self.writer, SetAttribute(Attribute::Reset))?;
         }
 
@@ -254,7 +257,11 @@ mod tests {
         ));
         assert!(matches!(
             CrosstermBackend::<Vec<u8>>::convert_color(Color::Rgb(255, 128, 0)),
-            CColor::Rgb { r: 255, g: 128, b: 0 }
+            CColor::Rgb {
+                r: 255,
+                g: 128,
+                b: 0
+            }
         ));
     }
 }

@@ -4,7 +4,7 @@ use std::process::Command;
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
-    
+
     if args.len() < 2 {
         print_help();
         return;
@@ -43,7 +43,7 @@ fn run_fmt() {
         .args(["fmt", "--all"])
         .status()
         .expect("Failed to run cargo fmt");
-    
+
     if !status.success() {
         std::process::exit(1);
     }
@@ -52,10 +52,17 @@ fn run_fmt() {
 fn run_lint() {
     println!("Running clippy...");
     let status = Command::new("cargo")
-        .args(["clippy", "--all-targets", "--all-features", "--", "-D", "warnings"])
+        .args([
+            "clippy",
+            "--all-targets",
+            "--all-features",
+            "--",
+            "-D",
+            "warnings",
+        ])
         .status()
         .expect("Failed to run cargo clippy");
-    
+
     if !status.success() {
         std::process::exit(1);
     }
@@ -67,7 +74,7 @@ fn run_test() {
         .args(["test", "--workspace"])
         .status()
         .expect("Failed to run cargo test");
-    
+
     if !status.success() {
         std::process::exit(1);
     }
@@ -79,7 +86,7 @@ fn run_doc() {
         .args(["doc", "--workspace", "--no-deps"])
         .status()
         .expect("Failed to run cargo doc");
-    
+
     if !status.success() {
         std::process::exit(1);
     }

@@ -124,7 +124,7 @@ impl Widget for Tabs<'_> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use tuxtui_core::style::Color;
+    use alloc::vec;
 
     #[test]
     fn test_tabs_creation() {

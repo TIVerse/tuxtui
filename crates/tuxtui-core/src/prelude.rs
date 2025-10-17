@@ -12,12 +12,12 @@
 //! let style = Style::default().fg(Color::Blue);
 //! ```
 
+pub use crate::backend::{Backend, TestBackend};
 pub use crate::buffer::{Buffer, Cell};
 pub use crate::geometry::{Alignment, Margin, Position, Rect};
 pub use crate::layout::{Constraint, Direction, Flex, Layout, Spacing};
 pub use crate::style::{Color, Modifier, Style, Stylize};
-pub use crate::text::{Line, Span, Text};
-pub use crate::backend::{Backend, TestBackend};
-pub use crate::terminal::{Frame, Terminal, Widget};
-pub use crate::theme::{PaletteTheme, Theme, WidgetTheme};
 pub use crate::symbols;
+pub use crate::terminal::{Frame, Terminal, Widget};
+pub use crate::text::{Line, Span, Text};
+pub use crate::theme::{PaletteTheme, Theme, WidgetTheme};

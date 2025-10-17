@@ -147,7 +147,11 @@ pub type DefaultTerminal = terminal::Terminal<CrosstermBackend<std::io::Stdout>>
 /// Default terminal type using termion backend.
 pub type DefaultTerminal = terminal::Terminal<TermionBackend<std::io::Stdout>>;
 
-#[cfg(all(feature = "termwiz", not(feature = "crossterm"), not(feature = "termion")))]
+#[cfg(all(
+    feature = "termwiz",
+    not(feature = "crossterm"),
+    not(feature = "termion")
+))]
 /// Default terminal type using termwiz backend.
 pub type DefaultTerminal = terminal::Terminal<TermwizBackend>;
 
@@ -214,7 +218,7 @@ pub fn init() -> std::io::Result<DefaultTerminal> {
 pub fn restore() -> std::io::Result<()> {
     use crossterm::{
         execute,
-        terminal::{disable_raw_mode, LeaveAlternateScreen},
+        terminal::{LeaveAlternateScreen, disable_raw_mode},
     };
     use std::io::stdout;
 

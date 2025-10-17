@@ -66,7 +66,7 @@ pub fn wrap_text(text: &str, width: usize) -> alloc::vec::Vec<alloc::string::Str
 
     for word in text.split_whitespace() {
         let word_width = word.width();
-        
+
         if current_width + word_width + 1 > width {
             if !current_line.is_empty() {
                 lines.push(current_line);
@@ -107,14 +107,14 @@ pub fn supports_truecolor() -> bool {
                 return true;
             }
         }
-        
+
         if let Ok(term) = std::env::var("TERM") {
             if term.contains("256color") || term.contains("24bit") {
                 return true;
             }
         }
     }
-    
+
     false
 }
 

@@ -56,7 +56,12 @@ impl Rect {
     #[inline]
     #[must_use]
     pub const fn new(x: u16, y: u16, width: u16, height: u16) -> Self {
-        Self { x, y, width, height }
+        Self {
+            x,
+            y,
+            width,
+            height,
+        }
     }
 
     /// Create a zero-sized rectangle at the origin.
@@ -137,10 +142,7 @@ impl Rect {
     /// ```
     #[must_use]
     pub const fn contains(self, pos: Position) -> bool {
-        pos.x >= self.x
-            && pos.x < self.right()
-            && pos.y >= self.y
-            && pos.y < self.bottom()
+        pos.x >= self.x && pos.x < self.right() && pos.y >= self.y && pos.y < self.bottom()
     }
 
     /// Compute the intersection of two rectangles.
@@ -312,7 +314,7 @@ mod tests {
         let a = Rect::new(0, 0, 10, 10);
         let b = Rect::new(5, 5, 10, 10);
         assert_eq!(a.intersection(b), Rect::new(5, 5, 5, 5));
-        
+
         let c = Rect::new(20, 20, 10, 10);
         assert_eq!(a.intersection(c), Rect::new(20, 20, 0, 0));
     }

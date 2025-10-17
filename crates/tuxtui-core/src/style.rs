@@ -415,7 +415,9 @@ mod tests {
     #[test]
     fn test_style_patch() {
         let base = Style::default().fg(Color::Red).add_modifier(Modifier::BOLD);
-        let patch = Style::default().bg(Color::Blue).add_modifier(Modifier::ITALIC);
+        let patch = Style::default()
+            .bg(Color::Blue)
+            .add_modifier(Modifier::ITALIC);
         let merged = base.patch(patch);
 
         assert_eq!(merged.fg, Some(Color::Red));

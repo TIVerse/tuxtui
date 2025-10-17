@@ -301,7 +301,7 @@ impl Widget for List<'_> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use tuxtui_core::style::Color;
+    use alloc::vec;
 
     #[test]
     fn test_list_creation() {
