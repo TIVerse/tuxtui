@@ -63,7 +63,7 @@ syn = { version = "2", features = ["full"] }
 pretty_assertions = "1"
 rstest = "0.23"
 rand = "0.8"
-criterion = { version = "0.5", features = ["html_reports"] }
+criterion = { version = "0.7", features = ["html_reports"] }
 insta = { version = "1", features = ["yaml"] }
 proptest = "1"
 trybuild = "1"
