@@ -14,6 +14,7 @@
 
 pub use crate::backend::{Backend, TestBackend};
 pub use crate::buffer::{Buffer, Cell};
+pub use crate::event::{KeyModifiers, MouseButton, MouseEvent, MouseEventKind};
 pub use crate::geometry::{Alignment, Margin, Position, Rect};
 pub use crate::layout::{Constraint, Direction, Flex, Layout, Spacing};
 pub use crate::style::{Color, Modifier, Style, Stylize};

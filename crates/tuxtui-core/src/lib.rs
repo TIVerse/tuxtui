@@ -40,6 +40,7 @@ extern crate alloc;
 
 pub mod backend;
 pub mod buffer;
+pub mod event;
 pub mod geometry;
 pub mod layout;
 pub mod prelude;
@@ -49,6 +50,7 @@ pub mod terminal;
 pub mod text;
 pub mod theme;
 pub mod util;
+pub mod viewport;
 
 #[cfg(test)]
 mod tests;

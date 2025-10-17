@@ -188,6 +188,34 @@ impl Layout {
         self
     }
 
+    /// Create a horizontal layout with the given constraints.
+    ///
+    /// This is a convenience method for `Layout::default().direction(Direction::Horizontal).constraints(...)`.
+    #[must_use]
+    pub fn horizontal<I>(constraints: I) -> Self
+    where
+        I: IntoIterator,
+        I::Item: Into<Constraint>,
+    {
+        Self::default()
+            .direction(Direction::Horizontal)
+            .constraints(constraints)
+    }
+
+    /// Create a vertical layout with the given constraints.
+    ///
+    /// This is a convenience method for `Layout::default().direction(Direction::Vertical).constraints(...)`.
+    #[must_use]
+    pub fn vertical<I>(constraints: I) -> Self
+    where
+        I: IntoIterator,
+        I::Item: Into<Constraint>,
+    {
+        Self::default()
+            .direction(Direction::Vertical)
+            .constraints(constraints)
+    }
+
     /// Split the given area according to the constraints.
     ///
     /// Returns a vector of rectangles, one for each constraint.

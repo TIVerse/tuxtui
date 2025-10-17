@@ -22,6 +22,51 @@ impl Position {
     pub const fn new(x: u16, y: u16) -> Self {
         Self { x, y }
     }
+
+    /// Calculate the distance to another position.
+    #[inline]
+    #[must_use]
+    pub fn distance_to(self, other: Self) -> f64 {
+        let dx = (other.x as f64) - (self.x as f64);
+        let dy = (other.y as f64) - (self.y as f64);
+        (dx * dx + dy * dy).sqrt()
+    }
+}
+
+impl core::ops::Add for Position {
+    type Output = Self;
+
+    fn add(self, rhs: Self) -> Self::Output {
+        Self {
+            x: self.x.saturating_add(rhs.x),
+            y: self.y.saturating_add(rhs.y),
+        }
+    }
+}
+
+impl core::ops::Sub for Position {
+    type Output = Self;
+
+    fn sub(self, rhs: Self) -> Self::Output {
+        Self {
+            x: self.x.saturating_sub(rhs.x),
+            y: self.y.saturating_sub(rhs.y),
+        }
+    }
+}
+
+impl core::ops::AddAssign for Position {
+    fn add_assign(&mut self, rhs: Self) {
+        self.x = self.x.saturating_add(rhs.x);
+        self.y = self.y.saturating_add(rhs.y);
+    }
+}
+
+impl core::ops::SubAssign for Position {
+    fn sub_assign(&mut self, rhs: Self) {
+        self.x = self.x.saturating_sub(rhs.x);
+        self.y = self.y.saturating_sub(rhs.y);
+    }
 }
 
 /// A rectangular region in the terminal.
@@ -177,6 +222,25 @@ impl Rect {
             if x2 > x1 { x2 - x1 } else { 0 },
             if y2 > y1 { y2 - y1 } else { 0 },
         )
+    }
+
+    /// Check if this rectangle fully contains another rectangle.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use tuxtui_core::geometry::Rect;
+    ///
+    /// let outer = Rect::new(0, 0, 10, 10);
+    /// let inner = Rect::new(2, 2, 5, 5);
+    /// assert!(outer.contains_rect(inner));
+    /// ```
+    #[must_use]
+    pub const fn contains_rect(self, other: Self) -> bool {
+        other.x >= self.x
+            && other.y >= self.y
+            && other.right() <= self.right()
+            && other.bottom() <= self.bottom()
     }
 
     /// Compute the union of two rectangles.

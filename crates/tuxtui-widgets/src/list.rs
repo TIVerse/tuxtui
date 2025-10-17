@@ -75,9 +75,26 @@ impl<'a> Stylize for ListItem<'a> {
     }
 }
 
+/// Corner to start rendering from.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+pub enum Corner {
+    /// Start from top-left
+    TopLeft,
+    /// Start from bottom-left (reverse order)
+    BottomLeft,
+}
+
+impl Default for Corner {
+    fn default() -> Self {
+        Self::TopLeft
+    }
+}
+
 /// State for a stateful list widget.
 ///
 /// Tracks the currently selected item and scroll offset.
+/// Supports both single and multi-select modes.
 ///
 /// # Example
 ///
@@ -93,15 +110,17 @@ impl<'a> Stylize for ListItem<'a> {
 pub struct ListState {
     selected: Option<usize>,
     offset: usize,
+    multi_select: Vec<usize>,
 }
 
 impl ListState {
     /// Create a new list state.
     #[must_use]
-    pub const fn new() -> Self {
+    pub fn new() -> Self {
         Self {
             selected: None,
             offset: 0,
+            multi_select: Vec::new(),
         }
     }
 
@@ -154,6 +173,37 @@ impl ListState {
     pub fn set_offset(&mut self, offset: usize) {
         self.offset = offset;
     }
+
+    /// Toggle multi-selection for an item.
+    pub fn toggle_selection(&mut self, index: usize) {
+        if let Some(pos) = self.multi_select.iter().position(|&i| i == index) {
+            self.multi_select.remove(pos);
+        } else {
+            self.multi_select.push(index);
+        }
+    }
+
+    /// Check if an item is selected in multi-select mode.
+    #[must_use]
+    pub fn is_selected(&self, index: usize) -> bool {
+        self.multi_select.contains(&index)
+    }
+
+    /// Get all selected items in multi-select mode.
+    #[must_use]
+    pub fn selected_items(&self) -> &[usize] {
+        &self.multi_select
+    }
+
+    /// Clear all multi-selections.
+    pub fn clear_selections(&mut self) {
+        self.multi_select.clear();
+    }
+
+    /// Select multiple items at once.
+    pub fn select_multiple(&mut self, indices: Vec<usize>) {
+        self.multi_select = indices;
+    }
 }
 
 /// A list widget.
@@ -182,6 +232,7 @@ pub struct List<'a> {
     highlight_style: Style,
     highlight_symbol: Option<&'static str>,
     marker: Option<ListMarker>,
+    start_corner: Corner,
 }
 
 impl<'a> List<'a> {
@@ -198,6 +249,7 @@ impl<'a> List<'a> {
             highlight_style: Style::default(),
             highlight_symbol: Some(">> "),
             marker: None,
+            start_corner: Corner::TopLeft,
         }
     }
 
@@ -226,6 +278,24 @@ impl<'a> List<'a> {
     #[must_use]
     pub const fn marker(mut self, marker: ListMarker) -> Self {
         self.marker = Some(marker);
+        self
+    }
+
+    /// Set the starting corner for rendering.
+    ///
+    /// Use `Corner::BottomLeft` to render items in reverse order (bottom to top).
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use tuxtui_widgets::list::{List, ListItem, Corner};
+    ///
+    /// let list = List::new(vec!["Item 1", "Item 2", "Item 3"])
+    ///     .start_corner(Corner::BottomLeft);
+    /// ```
+    #[must_use]
+    pub const fn start_corner(mut self, corner: Corner) -> Self {
+        self.start_corner = corner;
         self
     }
 

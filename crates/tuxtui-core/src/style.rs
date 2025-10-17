@@ -3,6 +3,21 @@
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
+/// Error type for color parsing.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ParseColorError {
+    input: alloc::string::String,
+}
+
+impl core::fmt::Display for ParseColorError {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        write!(f, "invalid color string: '{}'", self.input)
+    }
+}
+
+#[cfg(feature = "std")]
+impl std::error::Error for ParseColorError {}
+
 /// Terminal colors supporting indexed, RGB, and named colors.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
@@ -68,6 +83,102 @@ impl Color {
     #[must_use]
     pub const fn indexed(index: u8) -> Self {
         Self::Indexed(index)
+    }
+
+    /// Parse a color from a string.
+    ///
+    /// Supports:
+    /// - Named colors: "red", "blue", "green", etc.
+    /// - Hex colors: "#FF0000", "#F00"
+    /// - RGB: "rgb(255, 0, 0)"
+    /// - Indexed: "0" through "255"
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use tuxtui_core::style::Color;
+    ///
+    /// let red = Color::from_str("red").unwrap();
+    /// let hex = Color::from_str("#FF0000").unwrap();
+    /// let rgb = Color::from_str("rgb(255, 0, 0)").unwrap();
+    /// ```
+    pub fn from_str(s: &str) -> Result<Self, ParseColorError> {
+        let s = s.trim().to_lowercase();
+        
+        // Named colors
+        match s.as_str() {
+            "reset" => return Ok(Self::Reset),
+            "black" => return Ok(Self::Black),
+            "red" => return Ok(Self::Red),
+            "green" => return Ok(Self::Green),
+            "yellow" => return Ok(Self::Yellow),
+            "blue" => return Ok(Self::Blue),
+            "magenta" => return Ok(Self::Magenta),
+            "cyan" => return Ok(Self::Cyan),
+            "white" => return Ok(Self::White),
+            "gray" | "grey" => return Ok(Self::Gray),
+            "lightred" | "light_red" => return Ok(Self::LightRed),
+            "lightgreen" | "light_green" => return Ok(Self::LightGreen),
+            "lightyellow" | "light_yellow" => return Ok(Self::LightYellow),
+            "lightblue" | "light_blue" => return Ok(Self::LightBlue),
+            "lightmagenta" | "light_magenta" => return Ok(Self::LightMagenta),
+            "lightcyan" | "light_cyan" => return Ok(Self::LightCyan),
+            "lightgray" | "light_gray" | "lightgrey" | "light_grey" => return Ok(Self::LightGray),
+            _ => {}
+        }
+
+        // Hex colors (#RGB or #RRGGBB)
+        if let Some(hex) = s.strip_prefix('#') {
+            return Self::parse_hex(hex).ok_or_else(|| ParseColorError {
+                input: s.into(),
+            });
+        }
+
+        // RGB format: rgb(r, g, b)
+        if let Some(rgb) = s.strip_prefix("rgb(") {
+            if let Some(rgb) = rgb.strip_suffix(')') {
+                return Self::parse_rgb(rgb).ok_or_else(|| ParseColorError {
+                    input: s.into(),
+                });
+            }
+        }
+
+        // Indexed color (0-255)
+        if let Ok(index) = s.parse::<u8>() {
+            return Ok(Self::Indexed(index));
+        }
+
+        Err(ParseColorError { input: s.into() })
+    }
+
+    fn parse_hex(hex: &str) -> Option<Self> {
+        match hex.len() {
+            3 => {
+                // #RGB -> #RRGGBB
+                let r = u8::from_str_radix(&hex[0..1].repeat(2), 16).ok()?;
+                let g = u8::from_str_radix(&hex[1..2].repeat(2), 16).ok()?;
+                let b = u8::from_str_radix(&hex[2..3].repeat(2), 16).ok()?;
+                Some(Self::Rgb(r, g, b))
+            }
+            6 => {
+                let r = u8::from_str_radix(&hex[0..2], 16).ok()?;
+                let g = u8::from_str_radix(&hex[2..4], 16).ok()?;
+                let b = u8::from_str_radix(&hex[4..6], 16).ok()?;
+                Some(Self::Rgb(r, g, b))
+            }
+            _ => None,
+        }
+    }
+
+    fn parse_rgb(rgb: &str) -> Option<Self> {
+        let parts: alloc::vec::Vec<&str> = rgb.split(',').map(str::trim).collect();
+        if parts.len() != 3 {
+            return None;
+        }
+        let r = parts[0].parse().ok()?;
+        let g = parts[1].parse().ok()?;
+        let b = parts[2].parse().ok()?;
+        Some(Self::Rgb(r, g, b))
     }
 }
 

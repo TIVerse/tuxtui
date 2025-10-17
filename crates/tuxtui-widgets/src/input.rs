@@ -131,6 +131,7 @@ pub struct TextInput<'a> {
     placeholder_style: Style,
     cursor_style: Style,
     show_cursor: bool,
+    mask_char: Option<char>,
 }
 
 impl<'a> Default for TextInput<'a> {
@@ -141,6 +142,7 @@ impl<'a> Default for TextInput<'a> {
             placeholder_style: Style::new().add_modifier(Modifier::DIM),
             cursor_style: Style::new().add_modifier(Modifier::REVERSED),
             show_cursor: true,
+            mask_char: None,
         }
     }
 }
@@ -187,6 +189,26 @@ impl<'a> TextInput<'a> {
         self
     }
 
+    /// Set a mask character for password input.
+    ///
+    /// When set, all characters will be displayed as this character.
+    /// Use `Some('*')` or `Some('•')` for password fields.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use tuxtui_widgets::input::TextInput;
+    ///
+    /// let password_input = TextInput::default()
+    ///     .mask_char(Some('*'))
+    ///     .placeholder("Enter password...");
+    /// ```
+    #[must_use]
+    pub const fn mask_char(mut self, mask: Option<char>) -> Self {
+        self.mask_char = mask;
+        self
+    }
+
     /// Render the input with state.
     pub fn render_stateful(self, area: Rect, buf: &mut Buffer, state: &mut InputState) {
         if area.area() == 0 {
@@ -224,7 +246,7 @@ impl<'a> TextInput<'a> {
         let visible_end = (state.offset + width).min(chars.len());
         let visible_text: String = chars[visible_start..visible_end].iter().collect();
 
-        // Render text
+        // Render text (with masking if enabled)
         let mut x = area.left();
         for (i, ch) in visible_text.chars().enumerate() {
             let global_idx = visible_start + i;
@@ -234,7 +256,9 @@ impl<'a> TextInput<'a> {
                 self.style
             };
 
-            let ch_str = alloc::string::ToString::to_string(&ch);
+            // Use mask character if set, otherwise show actual character
+            let display_char = self.mask_char.unwrap_or(ch);
+            let ch_str = alloc::string::ToString::to_string(&display_char);
             x = buf.set_string(x, y, &ch_str, style);
             if x >= area.right() {
                 break;

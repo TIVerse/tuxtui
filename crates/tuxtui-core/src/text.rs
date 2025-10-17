@@ -169,6 +169,74 @@ impl<'a> Line<'a> {
         self.spans.iter().map(Span::width).sum()
     }
 
+    /// Truncate the line to fit within the given width, optionally adding an ellipsis.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use tuxtui_core::text::Line;
+    ///
+    /// let line = Line::from("This is a very long line");
+    /// let truncated = line.truncate(10, Some("..."));
+    /// assert!(truncated.width() <= 10);
+    /// ```
+    #[must_use]
+    pub fn truncate(self, max_width: usize, ellipsis: Option<&str>) -> Line<'a> {
+        use unicode_width::{UnicodeWidthStr, UnicodeWidthChar};
+        
+        let current_width = self.width();
+        if current_width <= max_width {
+            return self;
+        }
+
+        let ellipsis_str = ellipsis.unwrap_or("...");
+        let ellipsis_width = ellipsis_str.width();
+        
+        if ellipsis_width >= max_width {
+            return Line::from(ellipsis_str.to_string());
+        }
+
+        let target_width = max_width.saturating_sub(ellipsis_width);
+        let mut new_spans = alloc::vec::Vec::new();
+        let mut accumulated_width = 0;
+
+        for span in self.spans {
+            let span_width = span.width();
+            
+            if accumulated_width + span_width <= target_width {
+                accumulated_width += span_width;
+                new_spans.push(span);
+            } else {
+                let remaining = target_width.saturating_sub(accumulated_width);
+                if remaining > 0 {
+                    let mut truncated = alloc::string::String::new();
+                    let mut w = 0;
+                    for c in span.content.chars() {
+                        let cw = c.width().unwrap_or(0);
+                        if w + cw <= remaining {
+                            truncated.push(c);
+                            w += cw;
+                        } else {
+                            break;
+                        }
+                    }
+                    if !truncated.is_empty() {
+                        new_spans.push(Span::styled(truncated, span.style));
+                    }
+                }
+                break;
+            }
+        }
+
+        new_spans.push(Span::raw(ellipsis_str.to_string()));
+
+        Line {
+            spans: new_spans,
+            alignment: self.alignment,
+            style: self.style,
+        }
+    }
+
     /// Convert this line to an owned version.
     #[must_use]
     pub fn into_owned(self) -> Line<'static> {
