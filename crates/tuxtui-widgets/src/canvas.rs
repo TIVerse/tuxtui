@@ -40,7 +40,7 @@ impl CanvasContext {
             y_bounds,
             area,
             grid,
-            style: Style::default(),
+            style: Style::new(),
         }
     }
 

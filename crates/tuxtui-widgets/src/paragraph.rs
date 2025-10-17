@@ -1,6 +1,7 @@
 //! Paragraph widget for rendering rich text with wrapping.
 
 use alloc::vec::Vec;
+use alloc::format;
 use tuxtui_core::buffer::Buffer;
 use tuxtui_core::geometry::{Alignment, Rect};
 use tuxtui_core::style::Style;
