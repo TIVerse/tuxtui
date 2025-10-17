@@ -1,0 +1,42 @@
+[package]
+name = "tuxtui-crossterm"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+documentation.workspace = true
+keywords.workspace = true
+categories.workspace = true
+description = "Crossterm backend for tuxtui TUI library"
+readme = "README.md"
+
+[lib]
+name = "tuxtui_crossterm"
+path = "src/lib.rs"
+
+[features]
+default = ["crossterm_0_29"]
+crossterm_0_28 = []
+crossterm_0_29 = []
+serde = ["dep:serde", "tuxtui-core/serde"]
+underline-color = ["tuxtui-core/underline-color"]
+scrolling-regions = ["tuxtui-core/scrolling-regions"]
+unstable = []
+unstable-backend-writer = []
+
+[dependencies]
+tuxtui-core = { workspace = true }
+crossterm = { workspace = true }
+
+# Optional dependencies
+serde = { workspace = true, optional = true }
+
+[dev-dependencies]
+pretty_assertions = { workspace = true }
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]

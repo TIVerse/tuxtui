@@ -1,0 +1,55 @@
+[package]
+name = "tuxtui-widgets"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+documentation.workspace = true
+keywords.workspace = true
+categories.workspace = true
+description = "Official widget implementations for tuxtui TUI library"
+readme = "README.md"
+
+[lib]
+name = "tuxtui_widgets"
+path = "src/lib.rs"
+
+[features]
+default = ["all-widgets"]
+all-widgets = ["block", "paragraph", "list", "table", "tabs", "gauge", "barchart", "sparkline", "chart", "scrollbar", "canvas"]
+block = []
+paragraph = []
+list = []
+table = []
+tabs = []
+gauge = []
+barchart = []
+sparkline = []
+chart = []
+scrollbar = []
+canvas = []
+widget-calendar = ["dep:time"]
+serde = ["dep:serde", "tuxtui-core/serde"]
+unstable-rendered-line-info = []
+
+[dependencies]
+tuxtui-core = { workspace = true }
+unicode-segmentation = { workspace = true }
+unicode-width = { workspace = true }
+itertools = { workspace = true }
+
+# Optional dependencies
+serde = { workspace = true, optional = true }
+time = { workspace = true, optional = true, features = ["macros", "formatting"] }
+
+[dev-dependencies]
+pretty_assertions = { workspace = true }
+rstest = { workspace = true }
+rand = { workspace = true }
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]

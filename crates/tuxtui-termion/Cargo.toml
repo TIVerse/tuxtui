@@ -1,0 +1,36 @@
+[package]
+name = "tuxtui-termion"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+documentation.workspace = true
+keywords.workspace = true
+categories.workspace = true
+description = "Termion backend for tuxtui TUI library"
+readme = "README.md"
+
+[lib]
+name = "tuxtui_termion"
+path = "src/lib.rs"
+
+[features]
+default = []
+serde = ["dep:serde", "tuxtui-core/serde"]
+scrolling-regions = ["tuxtui-core/scrolling-regions"]
+unstable = []
+unstable-backend-writer = []
+
+[dependencies]
+tuxtui-core = { workspace = true }
+termion = { workspace = true }
+
+# Optional dependencies
+serde = { workspace = true, optional = true }
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]

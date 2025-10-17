@@ -1,6 +1,100 @@
-[package]
-name = "tuxtui"
+[workspace]
+resolver = "2"
+members = [
+    "crates/tuxtui",
+    "crates/tuxtui-core",
+    "crates/tuxtui-widgets",
+    "crates/tuxtui-crossterm",
+    "crates/tuxtui-termion",
+    "crates/tuxtui-termwiz",
+    "crates/tuxtui-macros",
+    "xtask",
+]
+
+[workspace.package]
 version = "0.1.0"
 edition = "2024"
+rust-version = "1.85.0"
+authors = ["Eshan Roy <eshanized@proton.me>"]
+license = "MIT"
+repository = "https://github.com/TIVerse/tuxtui"
+homepage = "https://github.com/TIVerse/tuxtui"
+documentation = "https://docs.rs/tuxtui"
+keywords = ["tui", "terminal", "dashboard", "cli", "ui"]
+categories = ["command-line-interface"]
+readme = "README.md"
 
-[dependencies]
+[workspace.dependencies]
+# Core crates
+tuxtui-core = { version = "0.1.0", path = "crates/tuxtui-core" }
+tuxtui-widgets = { version = "0.1.0", path = "crates/tuxtui-widgets" }
+tuxtui-crossterm = { version = "0.1.0", path = "crates/tuxtui-crossterm" }
+tuxtui-termion = { version = "0.1.0", path = "crates/tuxtui-termion" }
+tuxtui-termwiz = { version = "0.1.0", path = "crates/tuxtui-termwiz" }
+tuxtui-macros = { version = "0.1.0", path = "crates/tuxtui-macros" }
+
+# Backend dependencies
+crossterm = { version = "0.29", default-features = false }
+termion = { version = "4", default-features = false }
+termwiz = { version = "0.23", default-features = false }
+
+# Core dependencies
+serde = { version = "1", features = ["derive"] }
+palette = "0.7"
+time = { version = "0.3", default-features = false }
+unicode-segmentation = "1"
+unicode-width = "0.2"
+compact_str = { version = "0.8", features = ["serde"] }
+itertools = "0.13"
+lru = "0.12"
+bitflags = "2"
+anstyle = "1"
+thiserror = "2"
+strum = { version = "0.26", features = ["derive"] }
+
+# Async
+tokio = { version = "1", features = ["full"] }
+
+# Macros
+proc-macro2 = "1"
+quote = "1"
+syn = { version = "2", features = ["full"] }
+
+# Dev dependencies
+pretty_assertions = "1"
+rstest = "0.23"
+rand = "0.8"
+criterion = { version = "0.5", features = ["html_reports"] }
+insta = { version = "1", features = ["yaml"] }
+proptest = "1"
+trybuild = "1"
+tarpaulin = "0.31"
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+missing_docs = "warn"
+
+[workspace.lints.clippy]
+all = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+nursery = { level = "warn", priority = -1 }
+cargo = { level = "warn", priority = -1 }
+# Allow some pedantic lints
+module_name_repetitions = "allow"
+must_use_candidate = "allow"
+missing_errors_doc = "allow"
+missing_panics_doc = "allow"
+
+[profile.dev]
+opt-level = 0
+debug = true
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
+
+[profile.bench]
+inherits = "release"
+lto = true

@@ -1,0 +1,35 @@
+[package]
+name = "tuxtui-termwiz"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+documentation.workspace = true
+keywords.workspace = true
+categories.workspace = true
+description = "Termwiz backend for tuxtui TUI library"
+readme = "README.md"
+
+[lib]
+name = "tuxtui_termwiz"
+path = "src/lib.rs"
+
+[features]
+default = []
+serde = ["dep:serde", "tuxtui-core/serde"]
+underline-color = ["tuxtui-core/underline-color"]
+scrolling-regions = ["tuxtui-core/scrolling-regions"]
+
+[dependencies]
+tuxtui-core = { workspace = true }
+termwiz = { workspace = true }
+
+# Optional dependencies
+serde = { workspace = true, optional = true }
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]

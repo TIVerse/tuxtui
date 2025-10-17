@@ -1,0 +1,70 @@
+[package]
+name = "tuxtui"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+documentation.workspace = true
+keywords.workspace = true
+categories.workspace = true
+description = "A powerful and enhanced Terminal UI library inspired by ratatui"
+readme = "README.md"
+
+[lib]
+name = "tuxtui"
+path = "src/lib.rs"
+
+[features]
+default = ["crossterm", "underline-color"]
+
+# Backend selection (choose one for applications)
+crossterm = ["dep:tuxtui-crossterm"]
+termion = ["dep:tuxtui-termion"]
+termwiz = ["dep:tuxtui-termwiz"]
+
+# Feature flags
+serde = ["tuxtui-core/serde", "tuxtui-widgets/serde"]
+palette = ["tuxtui-core/palette"]
+layout-cache = ["tuxtui-core/layout-cache"]
+portable-atomic = ["tuxtui-core/portable-atomic"]
+anstyle = ["tuxtui-core/anstyle"]
+underline-color = ["tuxtui-core/underline-color"]
+scrolling-regions = ["tuxtui-core/scrolling-regions"]
+
+# Widget features
+all-widgets = ["tuxtui-widgets/all-widgets"]
+widget-calendar = ["tuxtui-widgets/widget-calendar"]
+
+# Macros
+macros = ["dep:tuxtui-macros"]
+
+# Unstable features
+unstable = []
+unstable-rendered-line-info = ["tuxtui-widgets/unstable-rendered-line-info"]
+unstable-widget-ref = []
+unstable-backend-writer = []
+
+[dependencies]
+tuxtui-core = { workspace = true, features = ["std"] }
+tuxtui-widgets = { workspace = true }
+
+# Backend dependencies (optional)
+tuxtui-crossterm = { workspace = true, optional = true }
+tuxtui-termion = { workspace = true, optional = true }
+tuxtui-termwiz = { workspace = true, optional = true }
+
+# Macro dependencies (optional)
+tuxtui-macros = { workspace = true, optional = true }
+
+[dev-dependencies]
+pretty_assertions = { workspace = true }
+rstest = { workspace = true }
+rand = { workspace = true }
+criterion = { workspace = true }
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]

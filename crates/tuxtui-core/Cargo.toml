@@ -1,0 +1,56 @@
+[package]
+name = "tuxtui-core"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+documentation.workspace = true
+keywords.workspace = true
+categories.workspace = true
+description = "Core types and traits for tuxtui TUI library"
+readme = "README.md"
+
+[lib]
+name = "tuxtui_core"
+path = "src/lib.rs"
+
+[features]
+default = ["std"]
+std = []
+layout-cache = ["dep:lru"]
+serde = ["dep:serde", "compact_str/serde"]
+palette = ["dep:palette"]
+portable-atomic = ["dep:portable-atomic"]
+anstyle = ["dep:anstyle"]
+underline-color = []
+scrolling-regions = []
+
+[dependencies]
+unicode-segmentation = { workspace = true }
+unicode-width = { workspace = true }
+compact_str = { workspace = true }
+itertools = { workspace = true }
+bitflags = { workspace = true }
+thiserror = { workspace = true }
+strum = { workspace = true }
+
+# Optional dependencies
+serde = { workspace = true, optional = true }
+palette = { workspace = true, optional = true }
+lru = { workspace = true, optional = true }
+portable-atomic = { version = "1", optional = true }
+anstyle = { workspace = true, optional = true }
+
+[dev-dependencies]
+pretty_assertions = { workspace = true }
+rstest = { workspace = true }
+rand = { workspace = true }
+proptest = { workspace = true }
+insta = { workspace = true }
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
