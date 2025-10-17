@@ -41,3 +41,6 @@ pub use crate::scrollbar::{Scrollbar, ScrollbarOrientation};
 
 #[cfg(feature = "canvas")]
 pub use crate::canvas::{Canvas, CanvasContext, Shape};
+
+pub use crate::tree::{Tree, TreeNode, TreeState, TreeSymbols};
+pub use crate::input::{TextInput, InputState};
