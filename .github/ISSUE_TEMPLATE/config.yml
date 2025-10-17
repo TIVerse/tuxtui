@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Discussions
+    url: https://github.com/TIVerse/tuxtui/discussions
+    about: Ask questions and discuss ideas with the community
+  - name: 💡 Feature Ideas
+    url: https://github.com/TIVerse/tuxtui/discussions/categories/ideas
+    about: Share and discuss feature ideas before creating a formal request
+  - name: 🆘 Help & Support
+    url: https://github.com/TIVerse/tuxtui/discussions/categories/q-a
+    about: Get help with using tuxtui
