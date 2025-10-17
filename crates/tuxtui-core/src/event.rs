@@ -59,9 +59,7 @@ impl MouseEvent {
     /// Check if this is a click event at the given position.
     #[must_use]
     pub const fn is_click_at(&self, column: u16, row: u16) -> bool {
-        matches!(self.kind, MouseEventKind::Down(_))
-            && self.column == column
-            && self.row == row
+        matches!(self.kind, MouseEventKind::Down(_)) && self.column == column && self.row == row
     }
 
     /// Check if this is a click event within the given area.

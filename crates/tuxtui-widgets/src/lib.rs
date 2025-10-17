@@ -79,8 +79,8 @@ pub mod canvas;
 #[cfg_attr(docsrs, doc(cfg(feature = "widget-calendar")))]
 pub mod calendar;
 
-pub mod tree;
 pub mod input;
 pub mod popup;
+pub mod tree;
 
 pub mod prelude;

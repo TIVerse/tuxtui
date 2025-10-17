@@ -224,7 +224,7 @@ impl<'a> TextInput<'a> {
                 let placeholder_style = self.style.patch(self.placeholder_style);
                 buf.set_string(area.left(), y, placeholder, placeholder_style);
             }
-            
+
             // Show cursor at beginning if enabled
             if self.show_cursor {
                 buf.set(area.left(), y, " ", self.cursor_style);
@@ -234,7 +234,7 @@ impl<'a> TextInput<'a> {
 
         // Calculate visible portion
         let chars: alloc::vec::Vec<char> = state.value.chars().collect();
-        
+
         // Adjust offset to keep cursor visible
         if state.cursor < state.offset {
             state.offset = state.cursor;
@@ -305,13 +305,13 @@ mod tests {
     fn test_input_state_cursor_movement() {
         let mut state = InputState::with_value("test".to_string());
         assert_eq!(state.cursor, 4);
-        
+
         state.move_cursor_left();
         assert_eq!(state.cursor, 3);
-        
+
         state.move_cursor_start();
         assert_eq!(state.cursor, 0);
-        
+
         state.move_cursor_end();
         assert_eq!(state.cursor, 4);
     }

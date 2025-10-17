@@ -167,7 +167,8 @@ impl Widget for Chart<'_> {
         for dataset in self.datasets {
             for point in dataset.data {
                 if let (Some(x), Some(y)) = (self.map_x(point.x, area), self.map_y(point.y, area)) {
-                    if x >= area.left() && x < area.right() && y >= area.top() && y < area.bottom() {
+                    if x >= area.left() && x < area.right() && y >= area.top() && y < area.bottom()
+                    {
                         let marker_str = alloc::string::String::from(dataset.marker);
                         buf.set(x, y, &marker_str, dataset.style);
                     }

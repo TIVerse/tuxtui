@@ -1,8 +1,8 @@
 //! Paragraph widget for rendering rich text with wrapping.
 
-use alloc::vec::Vec;
 use alloc::format;
 use alloc::string::{String, ToString};
+use alloc::vec::Vec;
 use tuxtui_core::buffer::Buffer;
 use tuxtui_core::geometry::{Alignment, Rect};
 use tuxtui_core::style::Style;
@@ -117,13 +117,17 @@ impl<'a> Paragraph<'a> {
                     }
                     Wrap::Word => {
                         let line_text = format!("{line}");
-                        let words: Vec<String> = line_text.split_whitespace().map(|s| s.to_string()).collect();
+                        let words: Vec<String> = line_text
+                            .split_whitespace()
+                            .map(|s| s.to_string())
+                            .collect();
                         let mut current_line = Line::new();
                         let mut current_width = 0;
 
                         for word in words {
                             let word_width = word.width();
-                            if current_width + word_width + 1 > width as usize && current_width > 0 {
+                            if current_width + word_width + 1 > width as usize && current_width > 0
+                            {
                                 wrapped.push(current_line);
                                 current_line = Line::new();
                                 current_width = 0;

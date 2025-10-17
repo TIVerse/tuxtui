@@ -86,12 +86,7 @@ impl Popup {
     }
 
     /// Render a widget inside the popup area.
-    pub fn render_widget<W: Widget>(
-        &self,
-        area: Rect,
-        buf: &mut Buffer,
-        widget: W,
-    ) {
+    pub fn render_widget<W: Widget>(&self, area: Rect, buf: &mut Buffer, widget: W) {
         // Clear/style background if requested
         if self.clear_background {
             let style = self.background_style.unwrap_or_else(Style::new);
@@ -257,7 +252,7 @@ impl Widget for Modal<'_> {
 
             for (idx, &button_text) in self.buttons.iter().enumerate() {
                 let x = start_x + (idx as u16 * (button_width + spacing));
-                
+
                 let button_style = if idx == self.selected_button {
                     self.button_style.patch(self.selected_style)
                 } else {
@@ -300,16 +295,16 @@ mod tests {
         let mut modal = Modal::new("Test", "Content").buttons(&["Yes", "No", "Cancel"]);
 
         assert_eq!(modal.get_selected(), 0);
-        
+
         modal.next_button();
         assert_eq!(modal.get_selected(), 1);
-        
+
         modal.next_button();
         assert_eq!(modal.get_selected(), 2);
-        
+
         modal.next_button();
         assert_eq!(modal.get_selected(), 0);
-        
+
         modal.previous_button();
         assert_eq!(modal.get_selected(), 2);
     }

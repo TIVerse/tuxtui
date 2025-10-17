@@ -137,9 +137,9 @@ impl Widget for BarChart<'_> {
             return;
         }
 
-        let max_value = self.max.unwrap_or_else(|| {
-            self.bars.iter().map(|b| b.value).max().unwrap_or(1)
-        });
+        let max_value = self
+            .max
+            .unwrap_or_else(|| self.bars.iter().map(|b| b.value).max().unwrap_or(1));
 
         if max_value == 0 {
             return;

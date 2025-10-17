@@ -5,7 +5,7 @@ use alloc::vec::Vec;
 use tuxtui_core::buffer::Buffer;
 use tuxtui_core::geometry::{Margin, Rect};
 use tuxtui_core::style::{Style, Stylize};
-use tuxtui_core::symbols::{LineStyle, NORMAL, ROUNDED, DOUBLE, THICK};
+use tuxtui_core::symbols::{DOUBLE, LineStyle, NORMAL, ROUNDED, THICK};
 use tuxtui_core::terminal::Widget;
 use tuxtui_core::text::{Line, Span};
 
@@ -246,8 +246,18 @@ impl Widget for Block<'_> {
                 // Corners
                 buf.set(area.left(), area.top(), symbols.top_left, self.style);
                 buf.set(area.right() - 1, area.top(), symbols.top_right, self.style);
-                buf.set(area.left(), area.bottom() - 1, symbols.bottom_left, self.style);
-                buf.set(area.right() - 1, area.bottom() - 1, symbols.bottom_right, self.style);
+                buf.set(
+                    area.left(),
+                    area.bottom() - 1,
+                    symbols.bottom_left,
+                    self.style,
+                );
+                buf.set(
+                    area.right() - 1,
+                    area.bottom() - 1,
+                    symbols.bottom_right,
+                    self.style,
+                );
 
                 // Horizontal borders
                 for x in (area.left() + 1)..(area.right() - 1) {
@@ -300,9 +310,10 @@ impl Widget for Block<'_> {
                     let center = area.left() + area.width / 2;
                     (center.saturating_sub(title_width / 2), area.bottom() - 1)
                 }
-                TitlePosition::BottomRight => {
-                    (area.right().saturating_sub(title_width + 1), area.bottom() - 1)
-                }
+                TitlePosition::BottomRight => (
+                    area.right().saturating_sub(title_width + 1),
+                    area.bottom() - 1,
+                ),
             };
 
             let mut current_x = x;
@@ -346,9 +357,7 @@ mod tests {
 
         terminal
             .draw(|frame| {
-                let block = Block::default()
-                    .title("Test")
-                    .borders(BorderType::All);
+                let block = Block::default().title("Test").borders(BorderType::All);
                 frame.render_widget(block, frame.area());
             })
             .unwrap();

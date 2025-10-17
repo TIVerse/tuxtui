@@ -182,8 +182,8 @@ impl<'a> Line<'a> {
     /// ```
     #[must_use]
     pub fn truncate(self, max_width: usize, ellipsis: Option<&str>) -> Line<'a> {
-        use unicode_width::{UnicodeWidthStr, UnicodeWidthChar};
-        
+        use unicode_width::{UnicodeWidthChar, UnicodeWidthStr};
+
         let current_width = self.width();
         if current_width <= max_width {
             return self;
@@ -191,7 +191,7 @@ impl<'a> Line<'a> {
 
         let ellipsis_str = ellipsis.unwrap_or("...");
         let ellipsis_width = ellipsis_str.width();
-        
+
         if ellipsis_width >= max_width {
             return Line::from(ellipsis_str.to_string());
         }
@@ -202,7 +202,7 @@ impl<'a> Line<'a> {
 
         for span in self.spans {
             let span_width = span.width();
-            
+
             if accumulated_width + span_width <= target_width {
                 accumulated_width += span_width;
                 new_spans.push(span);

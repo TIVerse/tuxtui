@@ -188,12 +188,17 @@ impl<'a> Tree<'a> {
     }
 
     /// Flatten tree nodes for rendering.
-    fn flatten_nodes(&self, nodes: &[TreeNode<'a>], prefix: &str, _is_last: bool) -> Vec<(String, Line<'a>, usize)> {
+    fn flatten_nodes(
+        &self,
+        nodes: &[TreeNode<'a>],
+        prefix: &str,
+        _is_last: bool,
+    ) -> Vec<(String, Line<'a>, usize)> {
         let mut result = Vec::new();
-        
+
         for (idx, node) in nodes.iter().enumerate() {
             let is_node_last = idx == nodes.len() - 1;
-            
+
             // Build the prefix for this node
             let node_prefix = if prefix.is_empty() {
                 String::new()
@@ -225,7 +230,11 @@ impl<'a> Tree<'a> {
                 let child_prefix = if prefix.is_empty() {
                     String::new()
                 } else {
-                    let continuation = if is_node_last { "  " } else { self.symbols.vertical };
+                    let continuation = if is_node_last {
+                        "  "
+                    } else {
+                        self.symbols.vertical
+                    };
                     alloc::format!("{}{} ", prefix, continuation)
                 };
                 result.extend(self.flatten_nodes(&node.children, &child_prefix, is_node_last));
@@ -255,7 +264,10 @@ impl<'a> Tree<'a> {
         }
 
         // Render visible nodes
-        let visible = flat_nodes.iter().skip(state.offset).take(area.height as usize);
+        let visible = flat_nodes
+            .iter()
+            .skip(state.offset)
+            .take(area.height as usize);
 
         for (i, (id, line, _depth)) in visible.enumerate() {
             let y = area.top() + i as u16;
@@ -300,8 +312,7 @@ mod tests {
 
     #[test]
     fn test_tree_node_with_children() {
-        let node = TreeNode::new("Root", "root")
-            .child(TreeNode::new("Child", "child"));
+        let node = TreeNode::new("Root", "root").child(TreeNode::new("Child", "child"));
         assert!(node.has_children());
         assert_eq!(node.children.len(), 1);
     }
@@ -310,7 +321,7 @@ mod tests {
     fn test_tree_state() {
         let mut state = TreeState::new();
         assert_eq!(state.selected(), None);
-        
+
         state.select(Some("test".to_string()));
         assert_eq!(state.selected(), Some("test"));
     }

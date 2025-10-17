@@ -200,9 +200,7 @@ mod tests {
 
     #[test]
     fn test_viewport_scrolling() {
-        let mut viewport = ViewportState::new()
-            .content_length(100)
-            .viewport_height(10);
+        let mut viewport = ViewportState::new().content_length(100).viewport_height(10);
 
         assert_eq!(viewport.offset(), 0);
         assert_eq!(viewport.max_offset(), 90);
@@ -219,9 +217,7 @@ mod tests {
 
     #[test]
     fn test_viewport_selection() {
-        let mut viewport = ViewportState::new()
-            .content_length(100)
-            .viewport_height(10);
+        let mut viewport = ViewportState::new().content_length(100).viewport_height(10);
 
         viewport.select(Some(50));
         assert_eq!(viewport.selected(), Some(50));
@@ -236,9 +232,7 @@ mod tests {
 
     #[test]
     fn test_viewport_page_navigation() {
-        let mut viewport = ViewportState::new()
-            .content_length(100)
-            .viewport_height(10);
+        let mut viewport = ViewportState::new().content_length(100).viewport_height(10);
 
         viewport.page_down();
         assert_eq!(viewport.offset(), 10);

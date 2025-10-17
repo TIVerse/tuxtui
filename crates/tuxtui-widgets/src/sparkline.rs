@@ -76,9 +76,9 @@ impl Widget for Sparkline<'_> {
             return;
         }
 
-        let max_value = self.max.unwrap_or_else(|| {
-            self.data.iter().copied().max().unwrap_or(1)
-        });
+        let max_value = self
+            .max
+            .unwrap_or_else(|| self.data.iter().copied().max().unwrap_or(1));
 
         if max_value == 0 {
             return;

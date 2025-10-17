@@ -104,7 +104,7 @@ impl Color {
     /// ```
     pub fn from_str(s: &str) -> Result<Self, ParseColorError> {
         let s = s.trim().to_lowercase();
-        
+
         // Named colors
         match s.as_str() {
             "reset" => return Ok(Self::Reset),
@@ -129,17 +129,13 @@ impl Color {
 
         // Hex colors (#RGB or #RRGGBB)
         if let Some(hex) = s.strip_prefix('#') {
-            return Self::parse_hex(hex).ok_or_else(|| ParseColorError {
-                input: s.into(),
-            });
+            return Self::parse_hex(hex).ok_or_else(|| ParseColorError { input: s.into() });
         }
 
         // RGB format: rgb(r, g, b)
         if let Some(rgb) = s.strip_prefix("rgb(") {
             if let Some(rgb) = rgb.strip_suffix(')') {
-                return Self::parse_rgb(rgb).ok_or_else(|| ParseColorError {
-                    input: s.into(),
-                });
+                return Self::parse_rgb(rgb).ok_or_else(|| ParseColorError { input: s.into() });
             }
         }
 

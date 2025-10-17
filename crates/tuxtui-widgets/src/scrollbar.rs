@@ -3,7 +3,7 @@
 use tuxtui_core::buffer::Buffer;
 use tuxtui_core::geometry::Rect;
 use tuxtui_core::style::Style;
-use tuxtui_core::symbols::{ScrollbarSymbols, SCROLLBAR_DEFAULT};
+use tuxtui_core::symbols::{SCROLLBAR_DEFAULT, ScrollbarSymbols};
 use tuxtui_core::terminal::Widget;
 
 /// Scrollbar orientation.
@@ -121,9 +121,11 @@ impl Widget for Scrollbar {
                     return;
                 }
 
-                let thumb_size = ((track_height * self.viewport_length) / self.content_length).max(1);
+                let thumb_size =
+                    ((track_height * self.viewport_length) / self.content_length).max(1);
                 let thumb_position = if self.content_length > self.viewport_length {
-                    (self.position * (track_height - thumb_size)) / (self.content_length - self.viewport_length)
+                    (self.position * (track_height - thumb_size))
+                        / (self.content_length - self.viewport_length)
                 } else {
                     0
                 };
@@ -143,9 +145,11 @@ impl Widget for Scrollbar {
                     return;
                 }
 
-                let thumb_size = ((track_width * self.viewport_length) / self.content_length).max(1);
+                let thumb_size =
+                    ((track_width * self.viewport_length) / self.content_length).max(1);
                 let thumb_position = if self.content_length > self.viewport_length {
-                    (self.position * (track_width - thumb_size)) / (self.content_length - self.viewport_length)
+                    (self.position * (track_width - thumb_size))
+                        / (self.content_length - self.viewport_length)
                 } else {
                     0
                 };
@@ -173,7 +177,7 @@ mod tests {
             .position(10)
             .content_length(100)
             .viewport_length(20);
-        
+
         assert_eq!(scrollbar.position, 10);
         assert_eq!(scrollbar.content_length, 100);
     }
