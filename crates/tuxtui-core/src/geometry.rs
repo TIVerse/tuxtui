@@ -219,8 +219,8 @@ impl Rect {
         Self::new(
             x1,
             y1,
-            if x2 > x1 { x2 - x1 } else { 0 },
-            if y2 > y1 { y2 - y1 } else { 0 },
+            x2.saturating_sub(x1),
+            y2.saturating_sub(y1),
         )
     }
 

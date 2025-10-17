@@ -1,13 +1,12 @@
 //! Block widget for creating bordered containers with titles.
 
-use alloc::string::String;
 use alloc::vec::Vec;
 use tuxtui_core::buffer::Buffer;
 use tuxtui_core::geometry::{Margin, Rect};
 use tuxtui_core::style::{Style, Stylize};
 use tuxtui_core::symbols::{DOUBLE, LineStyle, NORMAL, ROUNDED, THICK};
 use tuxtui_core::terminal::Widget;
-use tuxtui_core::text::{Line, Span};
+use tuxtui_core::text::Line;
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};

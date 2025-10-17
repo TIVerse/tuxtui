@@ -36,9 +36,7 @@ use crossterm::{
     },
     terminal::{self, Clear, ClearType},
 };
-use std::format;
 use std::io::{self, Write};
-use std::vec;
 use tuxtui_core::backend::Backend;
 use tuxtui_core::buffer::Cell;
 use tuxtui_core::geometry::{Position, Rect};

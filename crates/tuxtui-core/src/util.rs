@@ -67,12 +67,10 @@ pub fn wrap_text(text: &str, width: usize) -> alloc::vec::Vec<alloc::string::Str
     for word in text.split_whitespace() {
         let word_width = word.width();
 
-        if current_width + word_width + 1 > width {
-            if !current_line.is_empty() {
-                lines.push(current_line);
-                current_line = alloc::string::String::new();
-                current_width = 0;
-            }
+        if current_width + word_width + 1 > width && !current_line.is_empty() {
+            lines.push(current_line);
+            current_line = alloc::string::String::new();
+            current_width = 0;
         }
 
         if !current_line.is_empty() {

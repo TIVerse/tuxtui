@@ -29,7 +29,13 @@ if [[ "${1:-}" == "--execute" ]]; then
         exit 1
     fi
 else
-    echo -e "${BLUE}🧪 DRY RUN MODE - Testing without publishing${NC}"
+    echo -e "${BLUE}🧪 DRY RUN MODE${NC}"
+    echo ""
+    echo -e "${YELLOW}⚠️  Note: Dry-run can only verify tuxtui-core and tuxtui-macros${NC}"
+    echo -e "${YELLOW}   (other crates depend on tuxtui-core which isn't on crates.io yet)${NC}"
+    echo ""
+    echo -e "${BLUE}This is normal for first-time publishing!${NC}"
+    echo ""
     echo "Use './scripts/publish.sh --execute' to actually publish"
     echo ""
 fi
@@ -44,6 +50,9 @@ CRATES=(
     "tuxtui-termwiz"
     "tuxtui"
 )
+
+# Independent crates that can be tested in dry-run
+INDEPENDENT_CRATES=("tuxtui-core" "tuxtui-macros")
 
 # Function to publish a single crate
 publish_crate() {
@@ -145,13 +154,34 @@ echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━�
 
 # Publish each crate
 FAILED_CRATES=()
+SKIPPED_CRATES=()
+
+# Determine which crates to process
+if [ "$DRY_RUN" = true ]; then
+    # Only test independent crates in dry-run
+    CRATES_TO_PROCESS=("${INDEPENDENT_CRATES[@]}")
+    echo -e "${BLUE}Testing independent crates: ${INDEPENDENT_CRATES[*]}${NC}"
+    echo ""
+else
+    # Publish all crates in execute mode
+    CRATES_TO_PROCESS=("${CRATES[@]}")
+fi
+
 for crate in "${CRATES[@]}"; do
+    # Check if we should process this crate
+    if [ "$DRY_RUN" = true ] && [[ ! " ${INDEPENDENT_CRATES[@]} " =~ " ${crate} " ]]; then
+        # Skip dependent crates in dry-run mode
+        echo -e "${YELLOW}⏭️  Skipping ${crate} (depends on unpublished crates)${NC}"
+        SKIPPED_CRATES+=("$crate")
+        continue
+    fi
+    
     if ! publish_crate "$crate"; then
         FAILED_CRATES+=("$crate")
     fi
     
     # Wait between publishes (except after last one)
-    if [ "$crate" != "${CRATES[-1]}" ]; then
+    if [ "$crate" != "${CRATES[-1]}" ] && [ "$DRY_RUN" = false ]; then
         wait_for_crates_io
     fi
 done
@@ -162,8 +192,16 @@ echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━�
 echo -e "${BLUE}📊 Publishing Summary${NC}"
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 
+if [ "$DRY_RUN" = true ] && [ ${#SKIPPED_CRATES[@]} -gt 0 ]; then
+    echo -e "${BLUE}⏭️  Skipped crates (will be published in execute mode):${NC}"
+    for crate in "${SKIPPED_CRATES[@]}"; do
+        echo -e "${BLUE}  - ${crate}${NC}"
+    done
+    echo ""
+fi
+
 if [ ${#FAILED_CRATES[@]} -eq 0 ]; then
-    echo -e "${GREEN}✅ All crates published successfully!${NC}"
+    echo -e "${GREEN}✅ All tested crates verified successfully!${NC}"
     echo ""
     if [ "$DRY_RUN" = false ]; then
         echo -e "${YELLOW}📝 Next steps:${NC}"
@@ -173,8 +211,10 @@ if [ ${#FAILED_CRATES[@]} -eq 0 ]; then
         echo "4. Push the tag: git push origin v0.1.0"
         echo "5. Create GitHub release"
     else
-        echo -e "${YELLOW}Ready to publish for real!${NC}"
-        echo "Run: ./scripts/publish.sh --execute"
+        echo -e "${YELLOW}✅ Dry-run successful for independent crates!${NC}"
+        echo ""
+        echo -e "${GREEN}Ready to publish for real!${NC}"
+        echo "Run: ${YELLOW}./scripts/publish.sh --execute${NC}"
     fi
     exit 0
 else

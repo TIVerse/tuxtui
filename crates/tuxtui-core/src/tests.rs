@@ -6,7 +6,7 @@ mod integration {
 
     #[test]
     fn test_basic_rendering_pipeline() {
-        let mut backend = TestBackend::new(80, 24);
+        let backend = TestBackend::new(80, 24);
         let mut terminal = Terminal::new(backend).unwrap();
 
         terminal

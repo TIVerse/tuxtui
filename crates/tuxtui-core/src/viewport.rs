@@ -79,11 +79,7 @@ impl ViewportState {
     /// Get the maximum possible offset.
     #[must_use]
     pub const fn max_offset(&self) -> usize {
-        if self.content_length > self.viewport_height {
-            self.content_length - self.viewport_height
-        } else {
-            0
-        }
+        self.content_length.saturating_sub(self.viewport_height)
     }
 
     /// Scroll down by one line.

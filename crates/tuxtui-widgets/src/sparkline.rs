@@ -1,6 +1,5 @@
 //! Sparkline widget for compact data visualization.
 
-use alloc::vec::Vec;
 use tuxtui_core::buffer::Buffer;
 use tuxtui_core::geometry::Rect;
 use tuxtui_core::style::Style;
@@ -20,21 +19,11 @@ use tuxtui_core::terminal::Widget;
 ///     .data(&data)
 ///     .style(Style::default().fg(Color::Cyan));
 /// ```
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Default)]
 pub struct Sparkline<'a> {
     data: &'a [u64],
     style: Style,
     max: Option<u64>,
-}
-
-impl<'a> Default for Sparkline<'a> {
-    fn default() -> Self {
-        Self {
-            data: &[],
-            style: Style::default(),
-            max: None,
-        }
-    }
 }
 
 impl<'a> Sparkline<'a> {

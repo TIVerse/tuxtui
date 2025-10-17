@@ -3,9 +3,8 @@
 use alloc::string::String;
 use tuxtui_core::buffer::Buffer;
 use tuxtui_core::geometry::Rect;
-use tuxtui_core::style::{Modifier, Style, Stylize};
+use tuxtui_core::style::{Modifier, Style};
 use tuxtui_core::terminal::Widget;
-use unicode_width::UnicodeWidthStr;
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};

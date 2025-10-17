@@ -133,12 +133,19 @@ pub const SCROLLBAR_BLOCK: ScrollbarSymbols = ScrollbarSymbols {
 
 /// Bar chart symbols.
 pub const BAR_FULL: &str = "█";
+/// Seven-eighths filled bar symbol.
 pub const BAR_SEVEN_EIGHTHS: &str = "▉";
+/// Three-quarters filled bar symbol.
 pub const BAR_THREE_QUARTERS: &str = "▊";
+/// Five-eighths filled bar symbol.
 pub const BAR_FIVE_EIGHTHS: &str = "▋";
+/// Half filled bar symbol.
 pub const BAR_HALF: &str = "▌";
+/// Three-eighths filled bar symbol.
 pub const BAR_THREE_EIGHTHS: &str = "▍";
+/// Quarter filled bar symbol.
 pub const BAR_QUARTER: &str = "▎";
+/// One-eighth filled bar symbol.
 pub const BAR_ONE_EIGHTH: &str = "▏";
 
 /// Block symbols for different fill levels.
@@ -156,13 +163,18 @@ pub const BLOCKS: [&str; 9] = [
 
 /// Dot symbols for charts.
 pub const DOT: &str = "•";
+/// Filled bullet point symbol.
 pub const BULLET: &str = "●";
+/// Empty circle symbol.
 pub const CIRCLE: &str = "○";
 
 /// Marker symbols for lists.
 pub const MARKER_DOT: &str = "•";
+/// Arrow marker symbol.
 pub const MARKER_ARROW: &str = "→";
+/// Angle bracket marker symbol.
 pub const MARKER_ANGLE: &str = "❯";
+/// Check mark symbol.
 pub const MARKER_CHECK: &str = "✓";
 
 /// Braille patterns for high-resolution canvas rendering.

@@ -98,11 +98,11 @@ impl Color {
     /// ```
     /// use tuxtui_core::style::Color;
     ///
-    /// let red = Color::from_str("red").unwrap();
-    /// let hex = Color::from_str("#FF0000").unwrap();
-    /// let rgb = Color::from_str("rgb(255, 0, 0)").unwrap();
+    /// let red = Color::parse("red").unwrap();
+    /// let hex = Color::parse("#FF0000").unwrap();
+    /// let rgb = Color::parse("rgb(255, 0, 0)").unwrap();
     /// ```
-    pub fn from_str(s: &str) -> Result<Self, ParseColorError> {
+    pub fn parse(s: &str) -> Result<Self, ParseColorError> {
         let s = s.trim().to_lowercase();
 
         // Named colors
@@ -129,13 +129,13 @@ impl Color {
 
         // Hex colors (#RGB or #RRGGBB)
         if let Some(hex) = s.strip_prefix('#') {
-            return Self::parse_hex(hex).ok_or_else(|| ParseColorError { input: s.into() });
+            return Self::parse_hex(hex).ok_or(ParseColorError { input: s });
         }
 
         // RGB format: rgb(r, g, b)
         if let Some(rgb) = s.strip_prefix("rgb(") {
             if let Some(rgb) = rgb.strip_suffix(')') {
-                return Self::parse_rgb(rgb).ok_or_else(|| ParseColorError { input: s.into() });
+                return Self::parse_rgb(rgb).ok_or(ParseColorError { input: s });
             }
         }
 
@@ -144,7 +144,7 @@ impl Color {
             return Ok(Self::Indexed(index));
         }
 
-        Err(ParseColorError { input: s.into() })
+        Err(ParseColorError { input: s })
     }
 
     fn parse_hex(hex: &str) -> Option<Self> {
@@ -181,6 +181,14 @@ impl Color {
 impl Default for Color {
     fn default() -> Self {
         Self::Reset
+    }
+}
+
+impl core::str::FromStr for Color {
+    type Err = ParseColorError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        Self::parse(s)
     }
 }
 
@@ -241,7 +249,7 @@ impl Default for Modifier {
 ///     .bg(Color::Black)
 ///     .add_modifier(Modifier::BOLD);
 /// ```
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct Style {
     /// Foreground color
@@ -255,19 +263,6 @@ pub struct Style {
     pub add_modifier: Modifier,
     /// Modifiers to remove
     pub sub_modifier: Modifier,
-}
-
-impl Default for Style {
-    fn default() -> Self {
-        Self {
-            fg: None,
-            bg: None,
-            #[cfg(feature = "underline-color")]
-            underline_color: None,
-            add_modifier: Modifier::empty(),
-            sub_modifier: Modifier::empty(),
-        }
-    }
 }
 
 impl Style {

@@ -89,7 +89,7 @@ impl Popup {
     pub fn render_widget<W: Widget>(&self, area: Rect, buf: &mut Buffer, widget: W) {
         // Clear/style background if requested
         if self.clear_background {
-            let style = self.background_style.unwrap_or_else(Style::new);
+            let style = self.background_style.unwrap_or_default();
             for y in area.top()..area.bottom() {
                 for x in area.left()..area.right() {
                     buf.set(x, y, " ", style);

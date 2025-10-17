@@ -6,7 +6,6 @@ use tuxtui_core::geometry::Rect;
 use tuxtui_core::style::{Style, Stylize};
 use tuxtui_core::terminal::Widget;
 use tuxtui_core::text::Line;
-use unicode_width::UnicodeWidthStr;
 
 /// A tabs widget for navigation.
 ///

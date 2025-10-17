@@ -46,7 +46,7 @@ unicode-width = "0.2"
 compact_str = { version = "0.8", features = ["serde"] }
 itertools = "0.13"
 lru = "0.12"
-bitflags = "2"
+bitflags = { version = "2", features = ["serde"] }
 anstyle = "1"
 thiserror = "2"
 strum = { version = "0.26", features = ["derive"] }

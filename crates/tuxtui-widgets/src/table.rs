@@ -315,6 +315,7 @@ impl<'a> Table<'a> {
         }
     }
 
+    #[allow(clippy::too_many_arguments)]
     fn render_row(
         &self,
         cells: &[Line<'a>],

@@ -1,6 +1,5 @@
 //! Chart widget for plotting data with axes.
 
-use alloc::vec::Vec;
 use tuxtui_core::buffer::Buffer;
 use tuxtui_core::geometry::Rect;
 use tuxtui_core::style::Style;

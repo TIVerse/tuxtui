@@ -4,7 +4,7 @@ use alloc::string::String;
 use alloc::vec::Vec;
 use tuxtui_core::buffer::Buffer;
 use tuxtui_core::geometry::Rect;
-use tuxtui_core::style::{Style, Stylize};
+use tuxtui_core::style::Style;
 use tuxtui_core::terminal::Widget;
 use tuxtui_core::text::Line;
 

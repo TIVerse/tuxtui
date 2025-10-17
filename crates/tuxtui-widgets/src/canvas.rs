@@ -1,6 +1,5 @@
 //! Canvas widget for low-level drawing.
 
-use alloc::string::String;
 use alloc::vec;
 use alloc::vec::Vec;
 use tuxtui_core::buffer::Buffer;

@@ -19,23 +19,12 @@ use tuxtui_core::terminal::Widget;
 ///     .label("75%")
 ///     .style(Style::default().fg(Color::Yellow));
 /// ```
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Default)]
 pub struct Gauge<'a> {
     percent: u16,
     label: Option<&'a str>,
     style: Style,
     gauge_style: Style,
-}
-
-impl<'a> Default for Gauge<'a> {
-    fn default() -> Self {
-        Self {
-            percent: 0,
-            label: None,
-            style: Style::default(),
-            gauge_style: Style::default(),
-        }
-    }
 }
 
 impl<'a> Gauge<'a> {
