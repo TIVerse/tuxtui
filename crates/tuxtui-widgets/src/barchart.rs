@@ -23,7 +23,7 @@ impl<'a> Bar<'a> {
         Self {
             value,
             label: None,
-            style: Style::default(),
+            style: Style::new(),
         }
     }
 
@@ -88,7 +88,7 @@ impl<'a> BarChart<'a> {
     pub const fn new() -> Self {
         Self {
             bars: &[],
-            style: Style::default(),
+            style: Style::new(),
             bar_width: 3,
             bar_gap: 1,
             max: None,

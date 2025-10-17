@@ -2,6 +2,7 @@
 
 use alloc::vec::Vec;
 use alloc::format;
+use alloc::string::{String, ToString};
 use tuxtui_core::buffer::Buffer;
 use tuxtui_core::geometry::{Alignment, Rect};
 use tuxtui_core::style::Style;
@@ -116,7 +117,7 @@ impl<'a> Paragraph<'a> {
                     }
                     Wrap::Word => {
                         let line_text = format!("{line}");
-                        let words: Vec<&str> = line_text.split_whitespace().collect();
+                        let words: Vec<String> = line_text.split_whitespace().map(|s| s.to_string()).collect();
                         let mut current_line = Line::new();
                         let mut current_width = 0;
 
@@ -156,7 +157,7 @@ impl<'a> Paragraph<'a> {
                                 current_width = 0;
                             }
 
-                            current_line.push_span(grapheme.into());
+                            current_line.push_span(grapheme.to_string().into());
                             current_width += grapheme_width;
                         }
 

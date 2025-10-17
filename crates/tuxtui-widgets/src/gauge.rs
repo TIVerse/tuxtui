@@ -45,8 +45,8 @@ impl<'a> Gauge<'a> {
         Self {
             percent: 0,
             label: None,
-            style: Style::default(),
-            gauge_style: Style::default(),
+            style: Style::new(),
+            gauge_style: Style::new(),
         }
     }
 

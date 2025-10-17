@@ -21,7 +21,7 @@ path = "src/lib.rs"
 default = ["crossterm", "underline-color"]
 
 # Backend selection (choose one for applications)
-crossterm = ["dep:tuxtui-crossterm"]
+crossterm = ["dep:tuxtui-crossterm", "dep:crossterm"]
 termion = ["dep:tuxtui-termion"]
 termwiz = ["dep:tuxtui-termwiz"]
 
@@ -58,6 +58,9 @@ tuxtui-termwiz = { workspace = true, optional = true }
 
 # Macro dependencies (optional)
 tuxtui-macros = { workspace = true, optional = true }
+
+# Direct dependency for crossterm when feature is enabled
+crossterm = { workspace = true, optional = true }
 
 [dev-dependencies]
 pretty_assertions = { workspace = true }

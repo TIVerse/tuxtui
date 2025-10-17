@@ -39,7 +39,7 @@ impl<'a> Dataset<'a> {
         Self {
             name,
             data,
-            style: Style::default(),
+            style: Style::new(),
             marker: '•',
         }
     }
@@ -106,7 +106,7 @@ impl<'a> Chart<'a> {
             datasets: &[],
             x_bounds: [0.0, 1.0],
             y_bounds: [0.0, 1.0],
-            style: Style::default(),
+            style: Style::new(),
         }
     }
 

@@ -60,7 +60,7 @@ impl Scrollbar {
             position: 0,
             content_length: 0,
             viewport_length: 0,
-            style: Style::default(),
+            style: Style::new(),
             symbols: SCROLLBAR_DEFAULT,
         }
     }

@@ -1831,6 +1831,7 @@ name = "tuxtui"
 version = "0.1.0"
 dependencies = [
  "criterion",
+ "crossterm",
  "pretty_assertions",
  "rand 0.8.5",
  "rstest",

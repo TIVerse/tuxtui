@@ -1,6 +1,8 @@
 //! Canvas widget for low-level drawing.
 
 use alloc::vec::Vec;
+use alloc::vec;
+use alloc::string::String;
 use tuxtui_core::buffer::Buffer;
 use tuxtui_core::geometry::Rect;
 use tuxtui_core::style::Style;
@@ -162,7 +164,7 @@ impl<'a> Default for Canvas<'a> {
         Self {
             x_bounds: [0.0, 1.0],
             y_bounds: [0.0, 1.0],
-            style: Style::default(),
+            style: Style::new(),
             painter: None,
         }
     }
@@ -171,11 +173,11 @@ impl<'a> Default for Canvas<'a> {
 impl<'a> Canvas<'a> {
     /// Create a new canvas.
     #[must_use]
-    pub const fn new() -> Self {
+    pub fn new() -> Self {
         Self {
             x_bounds: [0.0, 1.0],
             y_bounds: [0.0, 1.0],
-            style: Style::default(),
+            style: Style::new(),
             painter: None,
         }
     }

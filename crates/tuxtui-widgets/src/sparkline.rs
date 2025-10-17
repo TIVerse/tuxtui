@@ -43,7 +43,7 @@ impl<'a> Sparkline<'a> {
     pub const fn new() -> Self {
         Self {
             data: &[],
-            style: Style::default(),
+            style: Style::new(),
             max: None,
         }
     }
