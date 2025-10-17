@@ -8,7 +8,6 @@ members = [
     "crates/tuxtui-termion",
     "crates/tuxtui-termwiz",
     "crates/tuxtui-macros",
-    "xtask",
 ]
 
 [workspace.package]
