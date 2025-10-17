@@ -17,6 +17,7 @@ readme = "README.md"
 proc-macro = true
 
 [dependencies]
+dep-insight = "0.3.0"
 proc-macro2 = { workspace = true }
 quote = { workspace = true }
 syn = { workspace = true }

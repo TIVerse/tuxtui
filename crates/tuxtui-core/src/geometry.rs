@@ -216,12 +216,7 @@ impl Rect {
         } else {
             other.bottom()
         };
-        Self::new(
-            x1,
-            y1,
-            x2.saturating_sub(x1),
-            y2.saturating_sub(y1),
-        )
+        Self::new(x1, y1, x2.saturating_sub(x1), y2.saturating_sub(y1))
     }
 
     /// Check if this rectangle fully contains another rectangle.

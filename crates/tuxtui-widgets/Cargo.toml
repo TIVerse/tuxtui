@@ -44,6 +44,7 @@ itertools = { workspace = true }
 # Optional dependencies
 serde = { workspace = true, optional = true }
 time = { workspace = true, optional = true, features = ["macros", "formatting"] }
+dep-insight = "0.3.0"
 
 [dev-dependencies]
 pretty_assertions = { workspace = true }

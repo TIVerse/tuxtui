@@ -30,6 +30,7 @@ termion = { workspace = true }
 
 # Optional dependencies
 serde = { workspace = true, optional = true }
+dep-insight = "0.3.0"
 
 [package.metadata.docs.rs]
 all-features = true
